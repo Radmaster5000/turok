@@ -29,6 +29,7 @@ world[3][3] = player
 def printWorld(world, score):
 	print('##############################')
 	print('score: ' + str(score) + '            moves: ' + str(moves))
+	print('player location: ')
 	print('##############################')
 	for i in range(1,6):
 		for j in range(1,6):
