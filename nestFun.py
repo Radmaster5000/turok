@@ -24,14 +24,15 @@ def getKeysByValue(dictOfElements, valueToFind, n):
 	listOfKeys = list()
 	for i in range(0, int(n)):
 		listOfItems = dictOfElements[i].items()
-		print(listOfItems)
+		#print(listOfItems)
 		for item in listOfItems:     #each item is a (key, value) tuple
 			if item[1] == valueToFind:
+				listOfKeys.append(i)
 				listOfKeys.append(item[0])
-				print("*****")
-				print(i)
-				print(listOfItems)
-				print("*****")
+				#print("*****")
+				#print(i)
+				#print(listOfItems)
+				#print("*****")
 	return listOfKeys
 
 
@@ -44,7 +45,7 @@ for line in range(0, int(n)):
 	print(madeWorld[line])
 
 #place player in the middle of the world (best as possible)
-madeWorld[mid][0] = 'player'
+madeWorld[mid][mid+1] = 'player'
 print()
 print()
 
@@ -56,8 +57,10 @@ print()
 
 listOfKeys = getKeysByValue(madeWorld, 'player', n)
 print("Keys with value equal to player")
-for key in listOfKeys:
-	print(key)
+print(listOfKeys)
+print(madeWorld[listOfKeys[0]][listOfKeys[1]])
+#for key in listOfKeys:
+#	print(key)
 #print new layout with player in the middle of the world
 #for line in range(0, int(n)):
 #	print(madeWorld[line])
