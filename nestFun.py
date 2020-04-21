@@ -55,12 +55,20 @@ for line in range(0, int(n)):
 print()
 print()
 
-listOfKeys = getKeysByValue(madeWorld, 'player', n)
+playerLocation = getKeysByValue(madeWorld, 'player', n)
 print("Keys with value equal to player")
-print(listOfKeys)
-print(madeWorld[listOfKeys[0]][listOfKeys[1]])
-#for key in listOfKeys:
-#	print(key)
-#print new layout with player in the middle of the world
-#for line in range(0, int(n)):
-#	print(madeWorld[line])
+print(playerLocation)
+print(madeWorld[playerLocation[0]][playerLocation[1]])
+
+dinoLocation = list()
+
+dinoLocation.append(int(input('Choose a row >>>')))
+dinoLocation.append(int(input('Choose a column >>>')))
+
+print(dinoLocation)
+
+madeWorld[dinoLocation[0]][dinoLocation[1]] = 'dinosaur'
+print()
+for line in range(0, int(n)):
+	print(madeWorld[line])
+print()
