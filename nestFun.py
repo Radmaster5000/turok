@@ -6,17 +6,16 @@ n = input("please enter a number: ")
 mid = int(n)/2
 mid = int(mid)
 
+#function that creates an empty world based on the value passed in as an argument
 def build_world (n):
 	world = []
-
-
 	for i in range(0, int(n)):
 		#create n number of rows
 		world.append({})
 		for j in range(0, int(n)):	
+			#every space is initialised as EMPTY
 			world[i].update({j:'empty'})
-
-
+	#returns a nested list (n x n) of empty values		
 	return world
 
 #this function is currently working at identifying the column but needs to identify the row as well
@@ -24,51 +23,43 @@ def getKeysByValue(dictOfElements, valueToFind, n):
 	listOfKeys = list()
 	for i in range(0, int(n)):
 		listOfItems = dictOfElements[i].items()
-		#print(listOfItems)
 		for item in listOfItems:     #each item is a (key, value) tuple
 			if item[1] == valueToFind:
 				listOfKeys.append(i)
 				listOfKeys.append(item[0])
-				#print("*****")
-				#print(i)
-				#print(listOfItems)
-				#print("*****")
 	return listOfKeys
 
+#this function prints the world as a grid
+def printWorld(madeWorld):
+	print()
+	for line in range(0, int(n)):
+		print(madeWorld[line])
+	print()
+
+#function to choose where to put a dinosaur
+def dinoPlacer():
+	dinoLocation = list()
+
+	dinoLocation.append(int(input('Choose a row >>>')))
+	dinoLocation.append(int(input('Choose a column >>>')))
+
+	return dinoLocation
 
 
-#create the world and save it in the madeWorld variable
+#create the world (based on the size n) and save it in the madeWorld variable
 madeWorld = build_world(n)
 
-#print each row on a new line
-for line in range(0, int(n)):
-	print(madeWorld[line])
-
 #place player in the middle of the world (best as possible)
-madeWorld[mid][mid+1] = 'player'
-print()
-print()
+madeWorld[mid][mid] = 'player'
 
-for line in range(0, int(n)):
-	print(madeWorld[line])
-
-print()
-print()
+printWorld(madeWorld)
 
 playerLocation = getKeysByValue(madeWorld, 'player', n)
 print("Keys with value equal to player")
 print(playerLocation)
 print(madeWorld[playerLocation[0]][playerLocation[1]])
 
-dinoLocation = list()
+dinoXY = dinoPlacer()
+madeWorld[dinoXY[0]][dinoXY[1]] = 'dinosaur'
 
-dinoLocation.append(int(input('Choose a row >>>')))
-dinoLocation.append(int(input('Choose a column >>>')))
-
-print(dinoLocation)
-
-madeWorld[dinoLocation[0]][dinoLocation[1]] = 'dinosaur'
-print()
-for line in range(0, int(n)):
-	print(madeWorld[line])
-print()
+printWorld(madeWorld)
