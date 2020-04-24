@@ -31,7 +31,10 @@ def getKeysByValue(dictOfElements, valueToFind, n):
 
 #this function prints the world as a grid
 def printWorld(madeWorld):
-	print()
+	print('#################################')
+	print('score:                  moves: ')
+	print('player location: ')
+	print('#################################')
 	for line in range(0, n):
 		print(madeWorld[line])
 	print()
@@ -68,6 +71,22 @@ def checkValidMove(playerLocation, direction, sizeOfWorld):
 		else:
 			return True
 
+#returns the player's new position as well as their old position
+def movePlayer(playerLocation, direction, sizeOfWorld):
+	oldPlayerLocation = playerLocation #this needs to be a copy of playerlocation rather than the pointer
+	newPlayerLocation = playerLocation
+	validMove = checkValidMove(playerLocation, direction, sizeOfWorld)
+	if (validMove == True):
+		if (direction == 'up'):
+			newPlayerLocation[0] -= 1
+		elif (direction == 'right'):
+			newPlayerLocation[1] += 1
+		elif (direction == 'down'):
+			newPlayerLocation[0] += 1
+		elif (direction == 'left'):
+			newPlayerLocation[1] -= 1
+	return newPlayerLocation, oldPlayerLocation
+
 
 #create the world (based on the size n) and save it in the madeWorld variable
 madeWorld = build_world(n)
@@ -89,6 +108,6 @@ printWorld(madeWorld)
 
 direction = input('Choose a direction >>> ')
 
-isItValid = checkValidMove(playerLocation, direction, n)
-print(isItValid)
-
+newPlayerLocation, oldPlayerLocation = movePlayer(playerLocation, direction, n)
+print('newPlayerLocation: ' + str(newPlayerLocation))
+print('oldPlayerLocation: ' + str(oldPlayerLocation))
