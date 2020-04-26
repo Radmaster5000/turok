@@ -1,10 +1,4 @@
-
-
-n = int(input("please enter a number: "))
-
-#create a (roughly) middle value to use when placing the player
-mid = n/2
-mid = int(mid)
+import random
 
 #function that creates an empty world based on the value passed in as an argument
 def build_world (n):
@@ -30,9 +24,9 @@ def getKeysByValue(dictOfElements, valueToFind, n):
 	return listOfKeys
 
 #this function prints the world as a grid
-def printWorld(madeWorld):
+def printWorld(madeWorld, moves):
 	print('#################################')
-	print('score:                  moves: ')
+	print('score:                  moves: ' + str(moves))
 	print('player location: ')
 	print('#################################')
 	for line in range(0, n):
@@ -73,41 +67,57 @@ def checkValidMove(playerLocation, direction, sizeOfWorld):
 
 #returns the player's new position as well as their old position
 def movePlayer(playerLocation, direction, sizeOfWorld):
-	oldPlayerLocation = playerLocation #this needs to be a copy of playerlocation rather than the pointer
-	newPlayerLocation = playerLocation
+	oldPlayerLocation = playerLocation[:]
+	
 	validMove = checkValidMove(playerLocation, direction, sizeOfWorld)
+	print(validMove)
 	if (validMove == True):
 		if (direction == 'up'):
-			newPlayerLocation[0] -= 1
+			playerLocation[0] -= 1
 		elif (direction == 'right'):
-			newPlayerLocation[1] += 1
+			playerLocation[1] += 1
 		elif (direction == 'down'):
-			newPlayerLocation[0] += 1
+			playerLocation[0] += 1
 		elif (direction == 'left'):
-			newPlayerLocation[1] -= 1
-	return newPlayerLocation, oldPlayerLocation
+			playerLocation[1] -= 1
 
+		return playerLocation, oldPlayerLocation
+	else:
+		direction = input("""Sorry, that's an invalid move!
+			Try again >>> """)
+		playerLocation, oldPlayerLocation = movePlayer(playerLocation, direction, n)
+		return playerLocation, oldPlayerLocation
 
+n = int(input("please enter a number: "))
+moves = 0
+#create a (roughly) middle value to use when placing the player
+mid = n/2
+mid = int(mid)
 #create the world (based on the size n) and save it in the madeWorld variable
 madeWorld = build_world(n)
 
-#place player in the middle of the world (best as possible)
-madeWorld[0][0] = 'player'
+#place player in a random position in the world
+madeWorld[random.randint(0,(n-1))][random.randint(0,(n-1))] = 'player'
 
-printWorld(madeWorld)
-
+#get player's location and save it to the playerLocation variable
 playerLocation = getKeysByValue(madeWorld, 'player', n)
-print("Keys with value equal to player")
-print(playerLocation)
-print(madeWorld[playerLocation[0]][playerLocation[1]])
 
+#asks the player for a location and places the dinosaur there
 dinoXY = dinoPlacer()
 madeWorld[dinoXY[0]][dinoXY[1]] = 'dinosaur'
 
-printWorld(madeWorld)
+printWorld(madeWorld, moves)
 
-direction = input('Choose a direction >>> ')
+while (moves < 5):
+	direction = input('Choose a direction >>> ')
 
-newPlayerLocation, oldPlayerLocation = movePlayer(playerLocation, direction, n)
-print('newPlayerLocation: ' + str(newPlayerLocation))
-print('oldPlayerLocation: ' + str(oldPlayerLocation))
+	playerLocation, oldPlayerLocation = movePlayer(playerLocation, direction, n)
+
+	madeWorld[playerLocation[0]][playerLocation[1]] = 'player'
+	madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = 'empty'
+
+	moves += 1
+
+	printWorld(madeWorld, moves)
+#print('newPlayerLocation: ' + str(playerLocation))
+#print('oldPlayerLocation: ' + str(oldPlayerLocation))
