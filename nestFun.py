@@ -1,5 +1,34 @@
 import random
 
+def intro():
+	choice = False
+
+	while (choice == False):
+
+		print("""
+
+		##  # #  # #### # # # # #  # ### ### ###
+		# # # ## # #  # # # # # ## #  #  #   # #
+		# # # # ## #  # ### # # # ##  #  ##  ##
+		# # # #  # #  # # # # # #  #  #  #   # #
+		##  # #  # #### # # ### #  #  #  ### # #
+
+			Welcome to DinoHunter!
+		  You're here to hunt dinosaurs!
+		  Go find them and capture them.
+			   Don't get eaten!
+
+		****************************************
+
+			PRESS J TO CONTINUE
+
+		****************************************
+		   """)
+
+		key = input('>>> ')
+		if (key == 'j'):
+			choice = True
+
 #function that creates an empty world based on the value passed in as an argument
 def build_world (n):
 	world = []
@@ -24,10 +53,13 @@ def getKeysByValue(dictOfElements, valueToFind, n):
 	return listOfKeys
 
 #this function prints the world as a grid
-def printWorld(madeWorld, moves):
+def printWorld(madeWorld, moves, score):
+	print('\n\n\n\n\n\n')
+	print()
 	print('#################################')
-	print('score:                  moves: ' + str(moves))
-	print('player location: ')
+	print()
+	print('score: ' + str(score) + '                 moves: ' + str(moves))
+	print()
 	print('#################################')
 	for line in range(0, n):
 		print(madeWorld[line])
@@ -70,7 +102,7 @@ def movePlayer(playerLocation, direction, sizeOfWorld):
 	oldPlayerLocation = playerLocation[:]
 	
 	validMove = checkValidMove(playerLocation, direction, sizeOfWorld)
-	print(validMove)
+	
 	if (validMove == True):
 		if (direction == 'up'):
 			playerLocation[0] -= 1
@@ -87,6 +119,31 @@ def movePlayer(playerLocation, direction, sizeOfWorld):
 			Try again >>> """)
 		playerLocation, oldPlayerLocation = movePlayer(playerLocation, direction, n)
 		return playerLocation, oldPlayerLocation
+
+#function that starts the game loop
+def playGame(moves, playerLocation, dinoXY, n, score):
+
+	while (moves < 5):
+		direction = input('Choose a direction >>> ')
+
+		playerLocation, oldPlayerLocation = movePlayer(playerLocation, direction, n)
+		if(playerLocation == dinoXY):
+			score += 1
+
+		madeWorld[playerLocation[0]][playerLocation[1]] = 'player'
+		madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = 'empty'
+
+		moves += 1
+
+		printWorld(madeWorld, moves, score)
+######################################################################
+#                                                                    #
+# All this shit below needs to go in the game loop function but last #
+#             time I moved it all, everything broke                  #
+#                                                                    #
+######################################################################
+
+intro()
 
 n = int(input("please enter a number: "))
 moves = 0
@@ -105,19 +162,12 @@ playerLocation = getKeysByValue(madeWorld, 'player', n)
 #asks the player for a location and places the dinosaur there
 dinoXY = dinoPlacer()
 madeWorld[dinoXY[0]][dinoXY[1]] = 'dinosaur'
+numberOfDinosaurs = 1
+score = 0
 
-printWorld(madeWorld, moves)
+printWorld(madeWorld, moves, score)
 
-while (moves < 5):
-	direction = input('Choose a direction >>> ')
 
-	playerLocation, oldPlayerLocation = movePlayer(playerLocation, direction, n)
+playGame(moves,playerLocation, dinoXY, n, score)
 
-	madeWorld[playerLocation[0]][playerLocation[1]] = 'player'
-	madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = 'empty'
 
-	moves += 1
-
-	printWorld(madeWorld, moves)
-#print('newPlayerLocation: ' + str(playerLocation))
-#print('oldPlayerLocation: ' + str(oldPlayerLocation))
