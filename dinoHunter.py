@@ -1,113 +1,178 @@
 import random
 
-score = 0
-moves = 0
-dinosaur = '0'
-player = 'R'
 empty = '-'
-validMove = False
+player = 'R'
+dinosaur = '0'
 
+def intro():
+	choice = False
 
-world = {1:{1:empty, 2:empty, 3:empty, 4:empty, 5:empty},
-		 2:{1:empty, 2:empty, 3:empty, 4:empty, 5:empty}, 
-		 3:{1:empty, 2:empty, 3:empty, 4:empty, 5:empty},
-		 4:{1:empty, 2:empty, 3:empty, 4:empty, 5:empty},
-		 5:{1:empty, 2:empty, 3:empty, 4:empty, 5:empty}}
+	while (choice == False):
 
+		print("""
 
+		##  # #  # #### # # # # #  # ### ### ###
+		# # # ## # #  # # # # # ## #  #  #   # #
+		# # # # ## #  # ### # # # ##  #  ##  ##
+		# # # #  # #  # # # # # #  #  #  #   # #
+		##  # #  # #### # # ### #  #  #  ### # #
 
-#replacing three random tiles with dinosaurs
-#THERE IS CURRENTLY A RISK OF THE PLAYER BEING REPLACED.
-for j in range(3):
-	world[random.randint(1,4)][random.randint(1,4)] = dinosaur
-#	print(world['R'])
+			Welcome to DinoHunter!
+		  You're here to hunt dinosaurs!
+		  Go find them and capture them.
+			   Don't get eaten!
 
-#replacing the middle tile with the player
-world[3][3] = player
+		****************************************
 
-# print the game board in a user friendly way including score at the top
-def printWorld(world, score):
-	print('##############################')
-	print('score: ' + str(score) + '            moves: ' + str(moves))
-	print('player location: ')
-	print('##############################')
-	for i in range(1,6):
-		for j in range(1,6):
-			print(world[j][i], end = '')
+			PRESS J TO CONTINUE
+
+		****************************************
+		   """)
+
+		key = input('>>> ')
+		if (key == 'j'):
+			choice = True
+
+#function that creates an empty world based on the value passed in as an argument
+def build_world (n):
+	world = []
+	for i in range(0, n):
+		#create n number of rows
+		world.append({})
+		for j in range(0, n):	
+			#every space is initialised as EMPTY
+			world[i].update({j:empty})
+	#returns a nested list (n x n) of empty values		
+	return world
+
+#this function is currently working at identifying the column but needs to identify the row as well
+def getKeysByValue(dictOfElements, valueToFind, n):
+	listOfKeys = list()
+	for i in range(0, n):
+		listOfItems = dictOfElements[i].items()
+		for item in listOfItems:     #each item is a (key, value) tuple
+			if item[1] == valueToFind:
+				listOfKeys.append(i)
+				listOfKeys.append(item[0])
+	return listOfKeys
+
+#this function prints the world as a grid
+def printWorld(madeWorld, moves, score):
+	print('\n\n\n\n\n\n')
+	print()
+	print('#################################')
+	print()
+	print('score: ' + str(score) + '                 moves: ' + str(moves))
+	print()
+	print('#################################')
+	for row in range(0, n):
+		for column in range(0, n):
+			print(madeWorld[row][column], end = '')
 		print()
 
+#function to choose where to put a dinosaur
+def dinoPlacer():
+	dinoLocation = list()
 
-# moving the player around the grid. Boundaries need to be added. 
-def movePlayer(world, direction):
-	for i in range(1,6):
-		for j in range(1,6):			
-			if (world[i][j] == player and direction == 'left'):
-				world[i-1][j] = player;
-				world[i][j] = empty;
-				return world
-			elif (world[i][j] == player and direction == 'right'):
-				world[i+1][j] = player;
-				world[i][j] = empty;
-				return world
-			elif (world[i][j] == player and direction == 'up'):
-				world[i][j-1] = player;
-				world[i][j] = empty;
-				return world
-			elif (world[i][j] == player and direction == 'down'):
-				world[i][j+1] = player;
-				world[i][j] = empty;
-				return world
+	dinoLocation.append(int(input('Choose a row >>>')))
+	dinoLocation.append(int(input('Choose a column >>>')))
 
-# function to count the number of dinosaurs on the grid and work out the player's score from that
-def checkDinoKill(world):
-	dinos = 3
-	dinoCount = 0
-	for i in range(1,6):
-		for j in range(1,6):
-			if (world[i][j] == dinosaur):
-				dinoCount += 1;
-	return dinos - dinoCount
+	return dinoLocation
 
-def checkValidMove(direction):
-	if (direction == 'up' or direction == 'down' or direction == 'left' or direction == 'right'):
-		#for i in range(1,6):
-		#	for j in range(1,6):			
-		#		if (world[i][j] == player and direction == 'left' and ((i-1)>=1)):
-		#			return True
-		#		elif (world[i][j] == player and direction == 'right' and ((i+1)<=6)):
-		#			return True
-		#		elif (world[i][j] == player and direction == 'up' and ((j-1)>=1)):
-		#			return True
-		#		elif (world[i][j] == player and direction == 'down' and ((j+1)<=6)):
-		#
-		return True
-	else:
-		return False
-
-while (True):
-	
-	validMove = False
-	score = checkDinoKill(world)
-	printWorld(world, score)
-	if (score == 3):
-		print('congratulations! you won!');
-		print('you made ' + str(moves) + ' moves.');
-		break
-	#loop to check that the user had given a valid input
-	while True:
-		direction = input()
-
-		validMove = checkValidMove(direction)
-		if validMove == False:
-			print('sorry, not a valid move')
-			continue
+#Returns a boolean depending on whether the proposed move is out of bounds
+def checkValidMove(playerLocation, direction, sizeOfWorld):
+	if (direction == 'up'):
+		if ((playerLocation[0] - 1) < 0):
+			return False
 		else:
-			break
+			return True
+	elif (direction == 'right'):
+		if ((playerLocation[1] + 1) >= sizeOfWorld):
+			return False
+		else:
+			return True
+	elif (direction == 'down'):
+		if ((playerLocation[0] + 1) >= sizeOfWorld):
+			return False
+		else:
+			return True
+	elif (direction == 'left'):
+		if ((playerLocation[1] - 1) < 0):
+			return False
+		else:
+			return True
 
-	#if input is okay, increase move count and update world
-	moves += 1
-	world = movePlayer(world, direction)
+#returns the player's new position as well as their old position
+def movePlayer(playerLocation, direction, sizeOfWorld):
+	oldPlayerLocation = playerLocation[:]
 	
-
-
+	validMove = checkValidMove(playerLocation, direction, sizeOfWorld)
 	
+	if (validMove == True):
+		if (direction == 'up'):
+			playerLocation[0] -= 1
+		elif (direction == 'right'):
+			playerLocation[1] += 1
+		elif (direction == 'down'):
+			playerLocation[0] += 1
+		elif (direction == 'left'):
+			playerLocation[1] -= 1
+
+		return playerLocation, oldPlayerLocation
+	else:
+		direction = input("""Sorry, that's an invalid move!
+			Try again >>> """)
+		playerLocation, oldPlayerLocation = movePlayer(playerLocation, direction, n)
+		return playerLocation, oldPlayerLocation
+
+#function that starts the game loop
+def playGame(moves, playerLocation, score):
+
+	while (score != numberOfDinosaurs):
+		direction = input('Choose a direction >>> ')
+
+		playerLocation, oldPlayerLocation = movePlayer(playerLocation, direction, n)
+		if(playerLocation == dinoXY):
+			score += 1
+
+		madeWorld[playerLocation[0]][playerLocation[1]] = player
+		madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = empty
+
+		moves += 1
+
+		printWorld(madeWorld, moves, score)
+######################################################################
+#                                                                    #
+# All this shit below needs to go in the game loop function but last #
+#             time I moved it all, everything broke                  #
+#                                                                    #
+######################################################################
+
+intro()
+
+n = int(input("please enter a size for the world: "))
+moves = 0
+#create a (roughly) middle value to use when placing the player
+mid = n/2
+mid = int(mid)
+#create the world (based on the size n) and save it in the madeWorld variable
+madeWorld = build_world(n)
+
+#place player in a random position in the world
+madeWorld[random.randint(0,(n-1))][random.randint(0,(n-1))] = player
+
+#get player's location and save it to the playerLocation variable
+playerLocation = getKeysByValue(madeWorld, player, n)
+
+#asks the player for a location and places the dinosaur there
+dinoXY = dinoPlacer()
+madeWorld[dinoXY[0]][dinoXY[1]] = dinosaur
+numberOfDinosaurs = 1
+score = 0
+
+printWorld(madeWorld, moves, score)
+
+
+playGame(moves,playerLocation, score)
+
+
