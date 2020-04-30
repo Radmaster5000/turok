@@ -1,13 +1,17 @@
 import random
+import time
 
 empty = '-'
 player = 'R'
 dinosaur = '0'
+n = 8
+moves = 0
 
-def intro():
-	choice = False
 
-	while (choice == False):
+def intro(key):
+	
+
+	while (key != 1 or key != 2 or key != 3):
 
 		print("""
 
@@ -24,14 +28,51 @@ def intro():
 
 		****************************************
 
-			PRESS J TO CONTINUE
+			SELECT AN OPTION:
+			1 - Start game
+			2 - How to play
+			3 - Quit
 
 		****************************************
 		   """)
 
-		key = input('>>> ')
-		if (key == 'j'):
-			choice = True
+		try:
+			key = int(input('>>> '))
+			if (key == 1):
+				return
+			elif (key == 2):
+				rules()
+			elif (key == 3):
+				quit()
+			else:
+				print('ooops! Try again!')
+		except ValueError:
+			print('Type a number, stupid!')
+			
+
+def rules():
+	print("""
+	*****************************************
+			RULES AND STUFF
+	*****************************************
+
+	You are the player and you look like this: """ + player)
+	print("	There are also dinosaurs. They look like this: " + dinosaur)
+	print("""	The aim of the game is to catch the dinosaurs by landing 
+	on the same space. Use ONLY the following commands:
+		'up' to move up
+		'down' to move down
+		'left' to move left
+		'right' to move right
+	Pretty self explanatory really, isn't it? """)
+	choice = input("	When you're ready, type 'back' to continue...")
+	if (choice == 'back'):
+		return
+	else:
+		print("That's not the word 'back', is it?...")
+		time.sleep(1)
+		rules()
+
 
 #function that creates an empty world based on the value passed in as an argument
 def build_world (n):
@@ -57,7 +98,7 @@ def getKeysByValue(dictOfElements, valueToFind, n):
 	return listOfKeys
 
 #this function prints the world as a grid
-def printWorld(madeWorld, moves, score):
+def printWorld():
 	print('\n\n\n\n\n\n')
 	print()
 	print('#################################')
@@ -74,8 +115,8 @@ def printWorld(madeWorld, moves, score):
 def dinoPlacer():
 	dinoLocation = list()
 
-	dinoLocation.append(int(input('Choose a row >>>')))
-	dinoLocation.append(int(input('Choose a column >>>')))
+	dinoLocation.append(random.randint(0, (n-1)))
+	dinoLocation.append(random.randint(0, (n-1)))
 
 	return dinoLocation
 
@@ -140,7 +181,7 @@ def playGame(moves, playerLocation, score):
 
 		moves += 1
 
-		printWorld(madeWorld, moves, score)
+		printWorld()
 ######################################################################
 #                                                                    #
 # All this shit below needs to go in the game loop function but last #
@@ -148,13 +189,8 @@ def playGame(moves, playerLocation, score):
 #                                                                    #
 ######################################################################
 
-intro()
+intro(0)
 
-n = int(input("please enter a size for the world: "))
-moves = 0
-#create a (roughly) middle value to use when placing the player
-mid = n/2
-mid = int(mid)
 #create the world (based on the size n) and save it in the madeWorld variable
 madeWorld = build_world(n)
 
@@ -164,13 +200,17 @@ madeWorld[random.randint(0,(n-1))][random.randint(0,(n-1))] = player
 #get player's location and save it to the playerLocation variable
 playerLocation = getKeysByValue(madeWorld, player, n)
 
-#asks the player for a location and places the dinosaur there
+#creates a random spawn point for the dinosaur, retrying if it clashes
+#with the player's location.
 dinoXY = dinoPlacer()
+while (dinoXY == playerLocation):
+	dinoXY = dinoPlacer()
+
 madeWorld[dinoXY[0]][dinoXY[1]] = dinosaur
 numberOfDinosaurs = 1
 score = 0
 
-printWorld(madeWorld, moves, score)
+printWorld()
 
 
 playGame(moves,playerLocation, score)
