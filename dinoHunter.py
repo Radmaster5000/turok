@@ -7,10 +7,18 @@ dinosaur = '0'
 n = 8
 moves = 0
 
+# created this so I can have different types of dinosaurs
+class Dinosaur:
+	def __init__(self, name, hp, speed, appearance):
+		self.name = name
+		self.hp = hp
+		self.speed = speed
+		self.appearance = appearance
 
+# first screen that loads up for the player
 def intro(key):
 	
-
+	# repeats until player presses 1, 2, or 3
 	while (key != 1 or key != 2 or key != 3):
 
 		print("""
@@ -49,7 +57,7 @@ def intro(key):
 		except ValueError:
 			print('Type a number, stupid!')
 			
-
+# selection 2 from the introduction screen
 def rules():
 	print("""
 	*****************************************
@@ -75,6 +83,7 @@ def rules():
 
 
 #function that creates an empty world based on the value passed in as an argument
+# (n is currently hard coded at the begining)
 def build_world (n):
 	world = []
 	for i in range(0, n):
@@ -98,7 +107,7 @@ def getKeysByValue(dictOfElements, valueToFind, n):
 	return listOfKeys
 
 #this function prints the world as a grid
-def printWorld():
+def printWorld(moves):
 	print('\n\n\n\n\n\n')
 	print()
 	print('#################################')
@@ -173,6 +182,7 @@ def playGame(moves, playerLocation, score):
 		direction = input('Choose a direction >>> ')
 
 		playerLocation, oldPlayerLocation = movePlayer(playerLocation, direction, n)
+		# when a player lands on the same space as a dinosaur
 		if(playerLocation == dinoXY):
 			score += 1
 
@@ -181,7 +191,7 @@ def playGame(moves, playerLocation, score):
 
 		moves += 1
 
-		printWorld()
+		printWorld(moves)
 ######################################################################
 #                                                                    #
 # All this shit below needs to go in the game loop function but last #
@@ -207,10 +217,11 @@ while (dinoXY == playerLocation):
 	dinoXY = dinoPlacer()
 
 madeWorld[dinoXY[0]][dinoXY[1]] = dinosaur
+
 numberOfDinosaurs = 1
 score = 0
 
-printWorld()
+printWorld(moves)
 
 
 playGame(moves,playerLocation, score)
