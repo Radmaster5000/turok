@@ -4,7 +4,7 @@ import time
 empty = '-'
 player = 'R'
 dinosaur = '0'
-n = 8
+n = 5
 moves = 0
 
 # created this so I can have different types of dinosaurs
@@ -119,6 +119,10 @@ def printWorld(moves):
 		for column in range(0, n):
 			print(madeWorld[row][column], end = '')
 		print()
+	print()
+	# use this next line as a dictionary lookup to print the description of the playerLocation
+	print(playerLocation)
+	print()	
 
 #function to choose where to put a dinosaur
 def dinoPlacer():
