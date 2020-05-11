@@ -1,5 +1,7 @@
 import random
 import time
+from worldID import worldID
+from worldDesc import worldDesc
 
 empty = '-'
 player = 'R'
@@ -108,6 +110,10 @@ def getKeysByValue(dictOfElements, valueToFind, n):
 
 #this function prints the world as a grid
 def printWorld(moves):
+	#creates a tuple version of the player's location so it can be used in the worldID dictionary
+	playerLocationDictKey = tuple(playerLocation)
+
+
 	print('\n\n\n\n\n\n')
 	print()
 	print('#################################')
@@ -115,14 +121,17 @@ def printWorld(moves):
 	print('score: ' + str(score) + '                 moves: ' + str(moves))
 	print()
 	print('#################################')
+	print(worldDesc[worldID[playerLocationDictKey]])
+	print()
+
 	for row in range(0, n):
 		for column in range(0, n):
 			print(madeWorld[row][column], end = '')
 		print()
 	print()
 	# use this next line as a dictionary lookup to print the description of the playerLocation
-	print(playerLocation)
-	print()	
+	#print(playerLocation)
+	#print()	
 
 #function to choose where to put a dinosaur
 def dinoPlacer():
