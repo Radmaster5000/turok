@@ -8,6 +8,7 @@ player = 'R'
 dinosaur = '0'
 n = 5
 moves = 0
+possibleDirections = ['up', 'down', 'left', 'right']
 
 # created this so I can have different types of dinosaurs
 class Dinosaur:
@@ -183,13 +184,13 @@ def movePlayer(playerLocation, direction, sizeOfWorld):
 
 		return playerLocation, oldPlayerLocation
 	else:
-		direction = input("""Sorry, that's an invalid move!
+		direction = input("""Sorry, that's not a valid move!
 			Try again >>> """)
 		playerLocation, oldPlayerLocation = movePlayer(playerLocation, direction, n)
 		return playerLocation, oldPlayerLocation
 
 #function that starts the game loop
-def playGame(moves, playerLocation, score):
+def playGame(moves, playerLocation, dinoXY, score):
 
 	while (score != numberOfDinosaurs):
 		direction = input('Choose a direction >>> ')
@@ -205,6 +206,21 @@ def playGame(moves, playerLocation, score):
 		moves += 1
 
 		printWorld(moves)
+
+		time.sleep(1)
+
+		dinoXY, oldDinoXY = movePlayer(dinoXY, possibleDirections[random.randint(0,3)], n)
+
+		if (dinoXY == playerLocation):
+			print('you dead!')
+			quit()
+
+		madeWorld[dinoXY[0]][dinoXY[1]] = dinosaur
+		madeWorld[oldDinoXY[0]][oldDinoXY[1]] = empty
+
+		printWorld(moves)
+
+		time.sleep(1)
 ######################################################################
 #                                                                    #
 # All this shit below needs to go in the game loop function but last #
@@ -237,6 +253,6 @@ score = 0
 printWorld(moves)
 
 
-playGame(moves,playerLocation, score)
+playGame(moves, playerLocation, dinoXY, score)
 
 
