@@ -87,7 +87,7 @@ def rules():
 	*****************************************
 
 	You are the player and you look like this: """ + player)
-	print("	There are also dinosaurs. They look like this: " + dinosaur)
+	print("	There are also dinosaurs. They look like this: " + tRex.appearance + " and " + raptor.appearance)
 	print("""	The aim of the game is to catch the dinosaurs by landing 
 	on the same space. Use ONLY the following commands:
 		'up' to move up
@@ -129,7 +129,7 @@ def getKeysByValue(dictOfElements, valueToFind, n):
 	return listOfKeys
 
 #this function prints the world as a grid
-def printWorld(moves):
+def printWorld(moves, score):
 	#creates a tuple version of the player's location so it can be used in the worldID dictionary
 	playerLocationDictKey = tuple(playerLocation)
 
@@ -214,7 +214,19 @@ def movePlayer(playerLocation, direction, sizeOfWorld, isItADinosaur):
 			return playerLocation, oldPlayerLocation
 
 #function that starts the game loop
-def playGame(moves, playerLocation, dinoXY, score):
+def playGame(moves, playerLocation, score):
+	
+	#creates a random spawn point for the dinosaur, retrying if it clashes
+	#with the player's location.
+	for dino in listOfDinosaurs:
+		dino.dinoXY = dinoPlacer()
+		while (dino.dinoXY == playerLocation):
+			dino.dinoXY = dinoPlacer()
+
+		madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = dino.appearance
+
+	printWorld(moves, score)
+
 	win = False
 
 	while (score != targetScore):
@@ -222,7 +234,8 @@ def playGame(moves, playerLocation, dinoXY, score):
 
 		playerLocation, oldPlayerLocation = movePlayer(playerLocation, direction, n, False)
 		# when a player lands on the same space as a dinosaur
-		if(playerLocation == dinoXY):
+		if(playerLocation == dino.dinoXY):
+			listOfDinosaurs.pop(listOfDinosaurs.index(dino))
 			score += 1
 			if (score == targetScore):
 				win = True
@@ -232,25 +245,25 @@ def playGame(moves, playerLocation, dinoXY, score):
 
 		moves += 1
 
-		printWorld(moves)
+		printWorld(moves, score)
 
 		if (win == True):
-			print("Congrats! You won in " + str(moves) + " number of moves.")
+			print("Congrats! You won in " + str(moves) + " moves.")
 			quit()
 
 		time.sleep(1)
 
 		for dino in listOfDinosaurs:
-			dinoXY, oldDinoXY = movePlayer(dinoXY, possibleDirections[random.randint(0,3)], n, True)
+			dino.dinoXY, dino.oldDinoXY = movePlayer(dino.dinoXY, possibleDirections[random.randint(0,3)], n, True)
 
-			if (dinoXY == playerLocation):
+			if (dino.dinoXY == playerLocation):
 				print('you dead!')
 				quit()
 
-			madeWorld[dinoXY[0]][dinoXY[1]] = dino.appearance
-			madeWorld[oldDinoXY[0]][oldDinoXY[1]] = empty
+			madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = dino.appearance
+			madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = empty
 
-			printWorld(moves)
+			printWorld(moves, score)
 
 			time.sleep(1)
 ######################################################################
@@ -279,20 +292,10 @@ madeWorld[random.randint(0,(n-1))][random.randint(0,(n-1))] = player
 #get player's location and save it to the playerLocation variable
 playerLocation = getKeysByValue(madeWorld, player, n)
 
-#creates a random spawn point for the dinosaur, retrying if it clashes
-#with the player's location.
-for dino in listOfDinosaurs:
-	dinoXY = dinoPlacer()
-	while (dinoXY == playerLocation):
-		dinoXY = dinoPlacer()
 
-	madeWorld[dinoXY[0]][dinoXY[1]] = dino.appearance
 
 score = 0
 
-printWorld(moves)
-print(difficulty)
-
-playGame(moves, playerLocation, dinoXY, score)
+playGame(moves, playerLocation, score)
 
 
