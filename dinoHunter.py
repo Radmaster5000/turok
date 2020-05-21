@@ -227,29 +227,34 @@ def playGame(moves, playerLocation, score):
 
 	printWorld(moves, score)
 
+
 	win = False
 
 	while (score != targetScore):
-		direction = input('Choose a direction >>> ')
+		
+		for goes in range(2):
 
-		playerLocation, oldPlayerLocation = movePlayer(playerLocation, direction, n, False)
-		# when a player lands on the same space as a dinosaur
-		if(playerLocation == dino.dinoXY):
-			listOfDinosaurs.pop(listOfDinosaurs.index(dino))
-			score += 1
-			if (score == targetScore):
-				win = True
+			direction = input('Choose a direction >>> ')
 
-		madeWorld[playerLocation[0]][playerLocation[1]] = player
-		madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = empty
+			playerLocation, oldPlayerLocation = movePlayer(playerLocation, direction, n, False)
+			# when a player lands on the same space as a dinosaur
+			if(playerLocation == dino.dinoXY):
+				print(listOfDinosaurs.index(dino))
+				listOfDinosaurs.pop(listOfDinosaurs.index(dino))
+				score += 1
+				if (score == targetScore):
+					win = True
 
-		moves += 1
+			madeWorld[playerLocation[0]][playerLocation[1]] = player
+			madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = empty
 
-		printWorld(moves, score)
+			moves += 1
 
-		if (win == True):
-			print("Congrats! You won in " + str(moves) + " moves.")
-			quit()
+			printWorld(moves, score)
+
+			if (win == True):
+				print("Congrats! You won in " + str(moves) + " moves.")
+				quit()
 
 		time.sleep(1)
 
@@ -266,6 +271,10 @@ def playGame(moves, playerLocation, score):
 			printWorld(moves, score)
 
 			time.sleep(1)
+
+		for dino in listOfDinosaurs:
+			print(str(dino.dinoXY))
+
 ######################################################################
 #                                                                    #
 # All this shit below needs to go in the game loop function but last #
