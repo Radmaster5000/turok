@@ -11,3 +11,11 @@ But it works. And it's testing my programming knowledge.
 
 It's also helping me refresh my memory using git and GitHub.
 
+HOW TO PLAY:
+
+Picking a game mode decides how many dinosaurs there are to hunt.
+The player moves twice, dinosaurs move once.
+Land on a dinosaur's space to catch it.
+If they land on your space, it's game over.
+Type 'up', 'down', 'left', and 'right' to move.
+
