@@ -87,7 +87,7 @@ def rules():
 	*****************************************
 
 	You are the player and you look like this: """ + player)
-	print("	There are also dinosaurs. They look like this: " + tRex.appearance + " and " + raptor.appearance)
+	print("	There are also dinosaurs. They look like this: " + dino_1.appearance + " and " + dino_2.appearance)
 	print("""	The aim of the game is to catch the dinosaurs by landing 
 	on the same space. Use ONLY the following commands:
 		'up' to move up
@@ -238,12 +238,13 @@ def playGame(moves, playerLocation, score):
 
 			playerLocation, oldPlayerLocation = movePlayer(playerLocation, direction, n, False)
 			# when a player lands on the same space as a dinosaur
-			if(playerLocation == dino.dinoXY):
-				print(listOfDinosaurs.index(dino))
-				listOfDinosaurs.pop(listOfDinosaurs.index(dino))
-				score += 1
-				if (score == targetScore):
-					win = True
+			for dino in listOfDinosaurs:
+				if(playerLocation == dino.dinoXY):
+					print(listOfDinosaurs.index(dino))
+					listOfDinosaurs.pop(listOfDinosaurs.index(dino))
+					score += 1
+					if (score == targetScore):
+						win = True
 
 			madeWorld[playerLocation[0]][playerLocation[1]] = player
 			madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = empty
