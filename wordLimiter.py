@@ -15,3 +15,4 @@ def wordLimiter(textToPrint, numberOfWordsPerLine):
 		print(*printableLine)
 		currentLine = 0
 		printableLine = []
+

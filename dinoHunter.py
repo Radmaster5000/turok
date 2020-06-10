@@ -3,6 +3,7 @@ import time
 from worldID import worldID
 from worldDesc import worldDesc
 from classTest import *
+from wordLimiter import wordLimiter
 
 
 empty = '-'
@@ -141,7 +142,8 @@ def printWorld(moves, score):
 	print('score: ' + str(score) + '                 moves: ' + str(moves))
 	print()
 	print('#################################')
-	print(worldDesc[worldID[playerLocationDictKey]])
+	#Prints the description of the space but limits the number of words on a line to keep it a neater size in the terminal
+	wordLimiter(worldDesc[worldID[playerLocationDictKey]], 6)
 	print()
 
 	for row in range(0, n):
@@ -203,13 +205,16 @@ def movePlayer(playerLocation, direction, sizeOfWorld, isItADinosaur):
 
 		return playerLocation, oldPlayerLocation
 	else:
+		#If it's a player, ask for a valid move until they cooperate
 		if (isItADinosaur == False):
 			direction = input("""Sorry, that's not a valid move!
 				Try again >>> """)
 			playerLocation, oldPlayerLocation = movePlayer(playerLocation, direction, n, False)
 			return playerLocation, oldPlayerLocation
+		#If it's a dinosaur, keep trying to move them to a valid space
 		else:
-			print("Dinosaur tried to leave the island. It tries a different direction...")
+			#The below print statement was to check if this was working or not
+			#print("Dinosaur tried to leave the island. It tries a different direction...")
 			playerLocation, oldPlayerLocation = movePlayer(playerLocation, possibleDirections[random.randint(0,3)], n, True)
 			return playerLocation, oldPlayerLocation
 
@@ -253,12 +258,14 @@ def playGame(moves, playerLocation, score):
 
 			printWorld(moves, score)
 
+			#Winning condition
 			if (win == True):
 				print("Congrats! You won in " + str(moves) + " moves.")
 				quit()
 
 		time.sleep(1)
 
+		#Each of the dinosaurs gets to move
 		for dino in listOfDinosaurs:
 			dino.dinoXY, dino.oldDinoXY = movePlayer(dino.dinoXY, possibleDirections[random.randint(0,3)], n, True)
 
@@ -273,8 +280,6 @@ def playGame(moves, playerLocation, score):
 
 			time.sleep(1)
 
-		for dino in listOfDinosaurs:
-			print(str(dino.dinoXY))
 
 ######################################################################
 #                                                                    #
