@@ -7,18 +7,9 @@ from wordLimiter import wordLimiter
 
 
 empty = '-'
-player = 'P'
 n = 5
 moves = 0
 possibleDirections = ['up', 'down', 'left', 'right']
-
-# created this so I can have different types of dinosaurs
-class Dinosaur:
-	def __init__(self, name, hp, speed, appearance):
-		self.name = name
-		self.hp = hp
-		self.speed = speed
-		self.appearance = appearance
 
 # first screen that loads up for the player
 def intro(key):
@@ -52,7 +43,7 @@ def intro(key):
 		try:
 			key = int(input('>>> '))
 			if (key == 1):
-				return selectDifficulty()
+				return selectPlayer()
 			elif (key == 2):
 				rules()
 			elif (key == 3):
@@ -61,6 +52,32 @@ def intro(key):
 				print('ooops! Try again!')
 		except ValueError:
 			print('Type a number, stupid!')
+
+def selectPlayer():
+	print(""" 
+	*****************************************
+			SELECT PLAYER
+	*****************************************
+
+		1. Tank (Strong, Slow)
+		2. Tracker (Weak, Fast)
+		
+	Strength:
+		Strong = 2hp
+		Weak   = 1hp
+
+	Speed:
+		Slow   = 1 move per turn
+		Fast   = 2 moves per turn
+
+	""")
+	choice = input("Please select player: ")
+	if (choice == '1' or choice == '2'):
+		return choice
+	else:
+		print("Sorry, try again...")
+		time.sleep(0.5)
+		selectPlayer()			
 			
 def selectDifficulty():
 	print(""" 
@@ -165,24 +182,36 @@ def dinoPlacer():
 	return dinoLocation
 
 #Returns a boolean depending on whether the proposed move is out of bounds
-def checkValidMove(playerLocation, direction, sizeOfWorld):
+def checkValidMove(playerLocation, direction, sizeOfWorld, isItADinosaur):
 	if (direction == 'up'):
 		if ((playerLocation[0] - 1) < 0):
+			return False
+		elif ((isItADinosaur == True) and (playerLocation[0] - 1 == 'T' or playerLocation[0] - 1 == 'R')):
+			print('Already a dinosaur there')
 			return False
 		else:
 			return True
 	elif (direction == 'right'):
 		if ((playerLocation[1] + 1) >= sizeOfWorld):
 			return False
+		elif ((isItADinosaur == True) and (playerLocation[1] + 1 == 'T' or playerLocation[1] + 1 == 'R')):
+			print('Already a dinosaur there')
+			return False
 		else:
 			return True
 	elif (direction == 'down'):
 		if ((playerLocation[0] + 1) >= sizeOfWorld):
 			return False
+		elif ((isItADinosaur == True) and (playerLocation[0] + 1 == 'T' or playerLocation[0] + 1 == 'R')):
+			print('Already a dinosaur there')
+			return False
 		else:
 			return True
 	elif (direction == 'left'):
 		if ((playerLocation[1] - 1) < 0):
+			return False
+		elif ((isItADinosaur == True) and (playerLocation[1] - 1 == 'T' or playerLocation[1] - 1 == 'R')):
+			print('Already a dinosaur there')
 			return False
 		else:
 			return True
@@ -191,7 +220,7 @@ def checkValidMove(playerLocation, direction, sizeOfWorld):
 def movePlayer(playerLocation, direction, sizeOfWorld, isItADinosaur):
 	oldPlayerLocation = playerLocation[:]
 	
-	validMove = checkValidMove(playerLocation, direction, sizeOfWorld)
+	validMove = checkValidMove(playerLocation, direction, sizeOfWorld, isItADinosaur)
 	
 	if (validMove == True):
 		if (direction == 'up'):
@@ -216,6 +245,7 @@ def movePlayer(playerLocation, direction, sizeOfWorld, isItADinosaur):
 			#The below print statement was to check if this was working or not
 			#print("Dinosaur tried to leave the island. It tries a different direction...")
 			playerLocation, oldPlayerLocation = movePlayer(playerLocation, possibleDirections[random.randint(0,3)], n, True)
+			
 			return playerLocation, oldPlayerLocation
 
 #function that starts the game loop
@@ -237,7 +267,7 @@ def playGame(moves, playerLocation, score):
 
 	while (score != targetScore):
 		
-		for goes in range(2):
+		for goes in range(player.speed):
 
 			direction = input('Choose a direction >>> ')
 
@@ -251,7 +281,7 @@ def playGame(moves, playerLocation, score):
 					if (score == targetScore):
 						win = True
 
-			madeWorld[playerLocation[0]][playerLocation[1]] = player
+			madeWorld[playerLocation[0]][playerLocation[1]] = player.appearance
 			madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = empty
 
 			moves += 1
@@ -267,18 +297,20 @@ def playGame(moves, playerLocation, score):
 
 		#Each of the dinosaurs gets to move
 		for dino in listOfDinosaurs:
-			dino.dinoXY, dino.oldDinoXY = movePlayer(dino.dinoXY, possibleDirections[random.randint(0,3)], n, True)
+			
+			for numberOfMoves in range(dino.speed):
 
-			if (dino.dinoXY == playerLocation):
-				print('you dead!')
-				quit()
+				dino.dinoXY, dino.oldDinoXY = movePlayer(dino.dinoXY, possibleDirections[random.randint(0,3)], n, True)
+				if (dino.dinoXY == playerLocation):
+					print('you dead!')
+					quit()
 
-			madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = dino.appearance
-			madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = empty
+				madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = dino.appearance
+				madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = empty
 
-			printWorld(moves, score)
+				printWorld(moves, score)
 
-			time.sleep(1)
+				time.sleep(1)
 
 
 ######################################################################
@@ -288,7 +320,14 @@ def playGame(moves, playerLocation, score):
 #                                                                    #
 ######################################################################
 
-difficulty = intro(0)
+
+playerSelect = intro(0)
+if (playerSelect == '1'):
+	player = player_1
+elif (playerSelect == '2'):
+	player = player_2
+
+difficulty = selectDifficulty()
 
 if (difficulty == '1'):
 	listOfDinosaurs = [dino_1]
@@ -302,10 +341,10 @@ targetScore = len(listOfDinosaurs)
 madeWorld = build_world(n)
 
 #place player in a random position in the world
-madeWorld[random.randint(0,(n-1))][random.randint(0,(n-1))] = player
+madeWorld[random.randint(0,(n-1))][random.randint(0,(n-1))] = player.appearance
 
 #get player's location and save it to the playerLocation variable
-playerLocation = getKeysByValue(madeWorld, player, n)
+playerLocation = getKeysByValue(madeWorld, player.appearance, n)
 
 
 
