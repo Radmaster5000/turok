@@ -275,7 +275,8 @@ def playGame(moves, playerLocation, score):
 			# when a player lands on the same space as a dinosaur
 			for dino in listOfDinosaurs:
 				if(playerLocation == dino.dinoXY):
-					print(listOfDinosaurs.index(dino))
+					#below print statement printed the index of the dinosaur being removed from the array when caught
+					#print(listOfDinosaurs.index(dino))
 					listOfDinosaurs.pop(listOfDinosaurs.index(dino))
 					score += 1
 					if (score == targetScore):
