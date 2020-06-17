@@ -13,9 +13,9 @@ It's also helping me refresh my memory using git and GitHub.
 
 HOW TO PLAY:
 
-Picking a game mode decides how many dinosaurs there are to hunt.
+Pick a player to choose how many moves you get.
 
-The player moves twice, dinosaurs move once.
+Pick a difficulty to choose how many dinosaurs are in the world.
 
 Land on a dinosaur's space to catch it.
 
@@ -23,3 +23,10 @@ If they land on your space, it's game over.
 
 Type 'up', 'down', 'left', and 'right' to move.
 
+****************************************
+
+CURRENTLY WORKING ON THE FIGHT MECHANIC
+
+Player and Dinosaur will have a turn based fight when they are in the same space.
+
+****************************************
