@@ -4,8 +4,8 @@ import random
 # These variables will come from the player and dinosaur classes when it's working properly
 ################################
 
-playerHP = 6
-playerWeapon = 2
+playerHP = 60
+playerWeapon = 4
 playerHidden = False
 
 dinoHP = 10
@@ -85,15 +85,29 @@ def dinoAttack(playerHP, playerHidden, dinoBite):
 # Main code block will be a while statement
 # While both player and dinosaur have more than 0 HP and the player hasn't run away, the turns will loop
 
+while ((dinoHP > 0) and (playerHP > 0)):
+
+	#print("dino = " + str(dinoHP) + " player = " + str(playerHP) + " Player hidden = " + str(playerHidden))
 
 
-#print("dino = " + str(dinoHP) + " player = " + str(playerHP) + " Player hidden = " + str(playerHidden))
+	dinoHP, playerHidden = playerAttack(playerWeapon, playerHidden, dinoHP)
+
+	if (dinoHP <= 0):
+		break
+
+	#print("dino = " + str(dinoHP) + " player = " + str(playerHP) + " Player hidden = " + str(playerHidden))
+
+	playerHP, playerHidden = dinoAttack(playerHP, playerHidden, dinoBite)
+
+	if (playerHP <= 0):
+		break
+
+	print("dino = " + str(dinoHP) + " player = " + str(playerHP))
+
+if (dinoHP <= 0):
+	print("Player wins!")
+else:
+	print("Dinosaur wins!")
 
 
-dinoHP, playerHidden = playerAttack(playerWeapon, playerHidden, dinoHP)
 
-#print("dino = " + str(dinoHP) + " player = " + str(playerHP) + " Player hidden = " + str(playerHidden))
-
-playerHP, playerHidden = dinoAttack(playerHP, playerHidden, dinoBite)
-
-print("dino = " + str(dinoHP) + " player = " + str(playerHP))
