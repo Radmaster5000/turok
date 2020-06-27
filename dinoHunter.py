@@ -277,6 +277,11 @@ def playGame(moves, playerLocation, score):
 				if(playerLocation == dino.dinoXY):
 					#below print statement printed the index of the dinosaur being removed from the array when caught
 					#print(listOfDinosaurs.index(dino))
+					print("player hp = " + str(player.hp))
+					print("player weapon = " + str(player.weapon))
+					print("Dinosaur hp = " + str(dino.hp))
+					print("Dinosaur bite = " + str(dino.bite))	
+
 					listOfDinosaurs.pop(listOfDinosaurs.index(dino))
 					score += 1
 					if (score == targetScore):
@@ -303,6 +308,10 @@ def playGame(moves, playerLocation, score):
 
 				dino.dinoXY, dino.oldDinoXY = movePlayer(dino.dinoXY, possibleDirections[random.randint(0,3)], n, True)
 				if (dino.dinoXY == playerLocation):
+					print("player hp = " + str(player.hp))
+					print("player weapon = " + str(player.weapon))
+					print("Dinosaur hp = " + str(dino.hp))
+					print("Dinosaur bite = " + str(dino.bite))
 					print('you dead!')
 					quit()
 
