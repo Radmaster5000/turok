@@ -19,6 +19,6 @@ class Player:
 		self.appearance = appearance
 
 player_1 = Player('Tank', 15, 1, 2, '1')
-player_2 = Player('Tracker', 5, 2, 3, '2')
+player_2 = Player('Tracker', 50, 2, 10, '2')
 
 

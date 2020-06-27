@@ -4,6 +4,7 @@ from worldID import worldID
 from worldDesc import worldDesc
 from classTest import *
 from wordLimiter import wordLimiter
+from fight import *
 
 
 empty = '-'
@@ -281,11 +282,16 @@ def playGame(moves, playerLocation, score):
 					print("player weapon = " + str(player.weapon))
 					print("Dinosaur hp = " + str(dino.hp))
 					print("Dinosaur bite = " + str(dino.bite))	
-
-					listOfDinosaurs.pop(listOfDinosaurs.index(dino))
-					score += 1
-					if (score == targetScore):
-						win = True
+					playerHP, dinoHP = fightMechanic(player.hp, player.weapon, dino.hp, dino.bite)
+					
+					if (dinoHP <=0):
+						listOfDinosaurs.pop(listOfDinosaurs.index(dino))
+						score += 1
+						if (score == targetScore):
+							win = True
+					else:
+						print("The dinosaur ate you!")
+						quit()
 
 			madeWorld[playerLocation[0]][playerLocation[1]] = player.appearance
 			madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = empty
