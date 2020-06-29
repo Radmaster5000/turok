@@ -160,6 +160,11 @@ def printWorld(moves, score):
 	print('score: ' + str(score) + '                 moves: ' + str(moves))
 	print()
 	print('#################################')
+	print()
+	print('----------------------------')
+	print('| UP | DOWN | LEFT | RIGHT |')
+	print('----------------------------')
+	print()
 	#Prints the description of the space but limits the number of words on a line to keep it a neater size in the terminal
 	wordLimiter(worldDesc[worldID[playerLocationDictKey]], 6)
 	print()

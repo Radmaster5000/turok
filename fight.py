@@ -17,7 +17,23 @@ import random
 def fightMechanic(playerHP, playerWeapon, dinoHP, dinoBite):
 
 	def playerAttack(playerWeapon, playerHidden, dinoHP):
+		print()
+		print()
+		print()
+		print()
+		print('----------------------------')
+		print('|  FIGHT  |  HIDE  |  RUN  |')
+		print('----------------------------')
+
+		print()
+		print()
+		
 		turn = input('> ')
+
+
+
+		while (turn != 'fight' and turn != 'hide' and turn != 'run'):
+			turn = input('> ')
 
 		roll = random.randint(1,6)
 		#print(roll)
