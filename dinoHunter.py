@@ -290,6 +290,11 @@ def playGame(moves, playerLocation, score):
 					playerHP, dinoHP = fightMechanic(player.hp, player.weapon, dino.hp, dino.bite)
 					
 					if (dinoHP <=0):
+						print("You survived your encounter with the dinosaur.")
+						print("The dinosaur didn't.")
+
+						time.sleep(3)
+
 						listOfDinosaurs.pop(listOfDinosaurs.index(dino))
 						score += 1
 						if (score == targetScore):
@@ -323,8 +328,21 @@ def playGame(moves, playerLocation, score):
 					print("player weapon = " + str(player.weapon))
 					print("Dinosaur hp = " + str(dino.hp))
 					print("Dinosaur bite = " + str(dino.bite))
-					print('you dead!')
-					quit()
+					playerHP, dinoHP = fightMechanic(player.hp, player.weapon, dino.hp, dino.bite)
+					
+					if (dinoHP <=0):
+						print("You survived your encounter with the dinosaur.")
+						print("The dinosaur didn't.")
+
+						time.sleep(3)
+
+						listOfDinosaurs.pop(listOfDinosaurs.index(dino))
+						score += 1
+						if (score == targetScore):
+							win = True
+					else:
+						print("The dinosaur ate you!")
+						quit()
 
 				madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = dino.appearance
 				madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = empty
