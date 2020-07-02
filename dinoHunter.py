@@ -189,12 +189,19 @@ def dinoPlacer():
 
 #Returns a boolean depending on whether the proposed move is out of bounds
 def checkValidMove(playerLocation, direction, sizeOfWorld, isItADinosaur):
+	# first line checks the direction chosen
 	if (direction == 'up'):
+		# next line checks the chosen space is within the world's boundaries
 		if ((playerLocation[0] - 1) < 0):
+			# if it's not, deny the move
 			return False
+		# if it's a valid space in the world, check if the moving character is a dinosaur
+		# if they are, check that the chosen space isn't already occupied by a dinosaur
+		# if it is, log it, and deny the move
 		elif ((isItADinosaur == True) and (madeWorld[playerLocation[0] - 1][playerLocation[1]] == dino_1.appearance or madeWorld[playerLocation[0] - 1][playerLocation[1]] == dino_2.appearance)):
 			print('Already a dinosaur there')
 			return False
+		# if everything's okay to this point, it's a valid move
 		else:
 			return True
 	elif (direction == 'right'):
