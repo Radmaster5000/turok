@@ -192,7 +192,7 @@ def checkValidMove(playerLocation, direction, sizeOfWorld, isItADinosaur):
 	if (direction == 'up'):
 		if ((playerLocation[0] - 1) < 0):
 			return False
-		elif ((isItADinosaur == True) and (playerLocation[0] - 1 == 'T' or playerLocation[0] - 1 == 'R')):
+		elif ((isItADinosaur == True) and (madeWorld[playerLocation[0] - 1][playerLocation[1]] == dino_1.appearance or madeWorld[playerLocation[0] - 1][playerLocation[1]] == dino_2.appearance)):
 			print('Already a dinosaur there')
 			return False
 		else:
@@ -200,7 +200,7 @@ def checkValidMove(playerLocation, direction, sizeOfWorld, isItADinosaur):
 	elif (direction == 'right'):
 		if ((playerLocation[1] + 1) >= sizeOfWorld):
 			return False
-		elif ((isItADinosaur == True) and (playerLocation[1] + 1 == 'T' or playerLocation[1] + 1 == 'R')):
+		elif ((isItADinosaur == True) and (madeWorld[playerLocation[0]][playerLocation[1] + 1] == dino_1.appearance or madeWorld[playerLocation[0]][playerLocation[1] + 1] == dino_2.appearance)):
 			print('Already a dinosaur there')
 			return False
 		else:
@@ -208,7 +208,7 @@ def checkValidMove(playerLocation, direction, sizeOfWorld, isItADinosaur):
 	elif (direction == 'down'):
 		if ((playerLocation[0] + 1) >= sizeOfWorld):
 			return False
-		elif ((isItADinosaur == True) and (playerLocation[0] + 1 == 'T' or playerLocation[0] + 1 == 'R')):
+		elif ((isItADinosaur == True) and (madeWorld[playerLocation[0] + 1][playerLocation[1]] == dino_1.appearance or madeWorld[playerLocation[0] + 1][playerLocation[1]] == dino_2.appearance)):
 			print('Already a dinosaur there')
 			return False
 		else:
@@ -216,7 +216,7 @@ def checkValidMove(playerLocation, direction, sizeOfWorld, isItADinosaur):
 	elif (direction == 'left'):
 		if ((playerLocation[1] - 1) < 0):
 			return False
-		elif ((isItADinosaur == True) and (playerLocation[1] - 1 == 'T' or playerLocation[1] - 1 == 'R')):
+		elif ((isItADinosaur == True) and (madeWorld[playerLocation[0]][playerLocation[1] - 1] == dino_1.appearance or madeWorld[playerLocation[0]][playerLocation[1] - 1] == dino_2.appearance)):
 			print('Already a dinosaur there')
 			return False
 		else:
