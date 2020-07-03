@@ -55,6 +55,7 @@ def intro(key):
 			print('Type a number, stupid!')
 
 def selectPlayer():
+	# choice 3 is hidden as it's the test player.
 	print(""" 
 	*****************************************
 			SELECT PLAYER
@@ -73,7 +74,7 @@ def selectPlayer():
 
 	""")
 	choice = input("Please select player: ")
-	if (choice == '1' or choice == '2'):
+	if (choice == '1' or choice == '2' or choice == '3'):
 		return choice
 	else:
 		print("Sorry, try again...")
@@ -81,6 +82,7 @@ def selectPlayer():
 		selectPlayer()			
 			
 def selectDifficulty():
+	# choice 4 is a hidden choice for test difficulty
 	print(""" 
 	*****************************************
 			SELECT DIFFICULTY
@@ -91,7 +93,7 @@ def selectDifficulty():
 		3. Hard (1 T-rex, 2 Raptors)
 	""")
 	choice = input("Please select difficulty: ")
-	if (choice == '1' or choice == '2' or choice == '3'):
+	if (choice == '1' or choice == '2' or choice == '3' or choice == '4'):
 		return choice
 	else:
 		print("Sorry, try again...")
@@ -372,6 +374,8 @@ if (playerSelect == '1'):
 	player = player_1
 elif (playerSelect == '2'):
 	player = player_2
+elif (playerSelect == '3'):
+	player = player_test
 
 difficulty = selectDifficulty()
 
@@ -381,6 +385,8 @@ elif (difficulty == '2'):
 	listOfDinosaurs = [dino_1, dino_2]
 elif (difficulty == '3'):
 	listOfDinosaurs = [dino_1, dino_2, dino_3]
+elif (difficulty == '4'):
+	listOfDinosaurs = [dino_test]
 
 targetScore = len(listOfDinosaurs)
 #create the world (based on the size n) and save it in the madeWorld variable

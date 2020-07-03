@@ -9,6 +9,7 @@ class Dinosaur:
 dino_1 = Dinosaur('Trex', 30, 1, 5, 'T')
 dino_2 = Dinosaur('Raptor', 10, 2, 3, 'R')
 dino_3 = Dinosaur('Raptor', 10, 2, 3, 'R')
+dino_test = Dinosaur('TestDinosaur', 999, 5, 10, '#')
 
 class Player:
 	def __init__(self, name, hp, speed, weapon, appearance):
@@ -18,7 +19,8 @@ class Player:
 		self.weapon = weapon
 		self.appearance = appearance
 
-player_1 = Player('Tank', 15, 1, 2, '1')
-player_2 = Player('Tracker', 50, 2, 10, '2')
+player_1 = Player('Tank', 15, 1, 5, '1')
+player_2 = Player('Tracker', 5, 2, 10, '2')
+player_test = Player('TestPlayer', 999, 5, 15, '&')
 
 
