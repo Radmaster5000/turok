@@ -47,10 +47,10 @@ def fightMechanic(playerHP, playerWeapon, dinoHP, dinoBite):
 			if (roll <= 3):
 				print("You choose to fight and successfully attack the dinosaur.")
 				dinoHP -= playerWeapon
-				return dinoHP, playerHidden
+				return dinoHP, playerHidden, False
 			else:
 				print("You choose to fight the dinosaur but miss with your attack.")
-				return dinoHP, playerHidden
+				return dinoHP, playerHidden, False
 		
 		# If they choose to hide, they need to roll a 4, 5, or 6
 		# If they succeed they are hidden when it's the dinosaur's turn
@@ -58,17 +58,18 @@ def fightMechanic(playerHP, playerWeapon, dinoHP, dinoBite):
 			if (roll >= 4):
 				print("Fearing for your life, you decide to hide and duck behind a tree.")
 				playerHidden = True
-				return dinoHP, playerHidden
+				return dinoHP, playerHidden, False
 			else:
 				print("Fearing for your life, you try to hide but are unable to escape the dinosaur's sight.")
-				return dinoHP, playerHidden
+				return dinoHP, playerHidden, False
 	
 		# If they choose to run, this will end the entire fighting mini-game
 		# Possibly cause the player to take damage as a penalty?
 	
 		elif (turn == 'run'):
 			print("You turn on your heels and run.")
-			return dinoHP, playerHidden
+			
+			return dinoHP, playerHidden, True
 	
 	def dinoAttack(playerHP, playerHidden, dinoBite):
 		if (playerHidden == True):
@@ -98,6 +99,7 @@ def fightMechanic(playerHP, playerWeapon, dinoHP, dinoBite):
 	
 			#SEarch for player
 	playerHidden = False
+	playerRun = False
 	
 	# Main code block will be a while statement
 	# While both player and dinosaur have more than 0 HP and the player hasn't run away, the turns will loop
@@ -107,8 +109,11 @@ def fightMechanic(playerHP, playerWeapon, dinoHP, dinoBite):
 		#print("dino = " + str(dinoHP) + " player = " + str(playerHP) + " Player hidden = " + str(playerHidden))
 	
 	
-		dinoHP, playerHidden = playerAttack(playerWeapon, playerHidden, dinoHP)
-	
+		dinoHP, playerHidden, playerRun = playerAttack(playerWeapon, playerHidden, dinoHP)
+		
+		if (playerRun == True):
+			break
+
 		if (dinoHP <= 0):
 			break
 	
@@ -121,7 +126,7 @@ def fightMechanic(playerHP, playerWeapon, dinoHP, dinoBite):
 	
 		print("dino = " + str(dinoHP) + " player = " + str(playerHP))
 	
-	return playerHP, dinoHP
+	return playerHP, dinoHP, playerRun
 
 
 
