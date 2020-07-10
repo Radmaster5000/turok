@@ -11,6 +11,7 @@ empty = '-'
 n = 5
 moves = 0
 possibleDirections = ['up', 'down', 'left', 'right']
+oppositeDirections = { 'right' : 'left', 'left' : 'right', 'up' : 'down', 'down' : 'up' }
 
 # first screen that loads up for the player
 def intro(key):
@@ -299,6 +300,8 @@ def playGame(moves, playerLocation, score):
 					playerHP, dinoHP, playerRun = fightMechanic(player.hp, player.weapon, dino.hp, dino.bite)
 					
 					if (playerRun == True):
+						#print(oppositeDirections[direction])
+						playerLocation, oldPlayerLocation = movePlayer(playerLocation, oppositeDirections[direction], n, False)
 						# undo last player move
 						break
 					else:
