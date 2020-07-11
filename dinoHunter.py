@@ -300,12 +300,14 @@ def playGame(moves, playerLocation, score):
 					playerHP, dinoHP, playerRun = fightMechanic(player.hp, player.weapon, dino.hp, dino.bite)
 					
 					if (playerRun == True):
-						#print(oppositeDirections[direction])
+						
 						playerLocation, oldPlayerLocation = movePlayer(playerLocation, oppositeDirections[direction], n, False)
+						
 						# undo last player move
 						break
 					else:
 						if (dinoHP <=0):
+							madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = empty
 							print("You survived your encounter with the dinosaur.")
 							print("The dinosaur didn't.")
 
@@ -320,11 +322,19 @@ def playGame(moves, playerLocation, score):
 							quit()
 
 			madeWorld[playerLocation[0]][playerLocation[1]] = player.appearance
-			madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = empty
 
+			if (playerRun == True):
+				madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = dino.appearance
+				playerRun = False
+			else:	
+				madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = empty
+			
+			printWorld(moves, score)
+			
+			
 			moves += 1
 
-			printWorld(moves, score)
+			
 
 			#Winning condition
 			if (win == True):
