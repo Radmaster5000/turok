@@ -107,8 +107,9 @@ def rules():
 	*****************************************
 			RULES AND STUFF
 	*****************************************
+	""")
 
-	You are the player and you look like this: """ + player)
+	print("	You are the player and you look like this: " + player_1.appearance + " and " + player_2.appearance)
 	print("	There are also dinosaurs. They look like this: " + dino_1.appearance + " and " + dino_2.appearance)
 	print("""	The aim of the game is to catch the dinosaurs by landing 
 	on the same space. Use ONLY the following commands:
@@ -121,7 +122,11 @@ def rules():
 	if (choice == 'back'):
 		return
 	else:
+		print()
+		print()
 		print("That's not the word 'back', is it?...")
+		print()
+		print()
 		time.sleep(1)
 		rules()
 
