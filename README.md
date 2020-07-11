@@ -35,13 +35,13 @@ The player options are:
 A roll is made to decide whether the player's action is sucessful or not. 
 
 * fight
- * a sucessful fight roll, inflicts the player's attack damage to the dinosaur
- * an unsucessful fight roll misses. Nothing happens
+	* a sucessful fight roll, inflicts the player's attack damage to the dinosaur
+	* an unsucessful fight roll misses. Nothing happens
 * hide
- * a successful hide roll results in the player being hidden and the dinosaur having to roll to find them before attacking.
- * an unsucessful hide roll fails. Nothing happens
+	* a successful hide roll results in the player being hidden and the dinosaur having to roll to find them before attacking.
+	* an unsucessful hide roll fails. Nothing happens
 * run
- * breaks from the fighting minigame and returns the player to their previous position. The player may take the remainder of their moves.
+	* breaks from the fighting minigame and returns the player to their previous position. The player may take the remainder of their moves.
 
 The dinosaur then attempts to attack the player and a roll is made to see if they suceed. If the player is hidden, the dinosaur must roll and suceed to find them before attacking.
 
