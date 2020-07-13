@@ -283,7 +283,7 @@ def playGame(moves, playerLocation, score):
 
 	printWorld(moves, score)
 
-
+	playerRun = False
 	win = False
 
 	while (score != targetScore):
@@ -305,13 +305,12 @@ def playGame(moves, playerLocation, score):
 					playerHP, dinoHP, playerRun = fightMechanic(player.hp, player.weapon, dino.hp, dino.bite)
 					
 					if (playerRun == True):
-						
+						# Undoes the player's last move by repeating their last move but replacing the direction with an opposite value
 						playerLocation, oldPlayerLocation = movePlayer(playerLocation, oppositeDirections[direction], n, False)
-						
-						# undo last player move
 						break
 					else:
 						if (dinoHP <=0):
+							# if the dinosaur's dead, change the player's last position to an empty square because they now occupy the dinosaur's square
 							madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = empty
 							print("You survived your encounter with the dinosaur.")
 							print("The dinosaur didn't.")
@@ -325,13 +324,15 @@ def playGame(moves, playerLocation, score):
 						else:
 							print("The dinosaur ate you!")
 							quit()
-
+			# print player's icon in the dinosaur's old square because they defeated the dinosaur				
 			madeWorld[playerLocation[0]][playerLocation[1]] = player.appearance
 
 			if (playerRun == True):
+				# if the player has run away, keep the dinosaur icon in the original square
 				madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = dino.appearance
 				playerRun = False
-			else:	
+			else:
+				# for any other square the player has been in, empty it or there will be a trail of player appearances
 				madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = empty
 			
 			printWorld(moves, score)
@@ -362,7 +363,8 @@ def playGame(moves, playerLocation, score):
 					playerHP, dinoHP, playerRun = fightMechanic(player.hp, player.weapon, dino.hp, dino.bite)
 					
 					if (playerRun == True):
-						# put player in last dinosaur position
+						# Undoes the dinosaur's last move by repeating their last move but replacing the direction with an opposite value
+						playerLocation, oldPlayerLocation = movePlayer(playerLocation, oppositeDirections[direction], n, True)
 						break
 					else:
 						if (dinoHP <=0):
