@@ -47,4 +47,6 @@ The dinosaur then attempts to attack the player and a roll is made to see if the
 
 *******************************************
 
+ADDED A NEW BRANCH BECAUSE I KINDA BROKE IT AS I WAS TRYING TO FIX SOMETHING
+
 
