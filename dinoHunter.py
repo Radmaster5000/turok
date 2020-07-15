@@ -387,7 +387,9 @@ def playGame(moves, playerLocation, score):
 					madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = empty
 					playerRun = False
 				else:
-					madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = empty
+					madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = dino.appearance
+					madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = empty
+					
 
 				printWorld(moves, score)
 
