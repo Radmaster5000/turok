@@ -380,9 +380,14 @@ def playGame(moves, playerLocation, score):
 						else:
 							print("The dinosaur ate you!")
 							quit()
-
-				madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = dino.appearance
-				madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = empty
+				madeWorld[playerLocation[0]][playerLocation[1]] = player.appearance				
+				if (playerRun == True):
+					# keep the dinosaur on its new square
+					madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = dino.appearance
+					madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = empty
+					playerRun = False
+				else:
+					madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = empty
 
 				printWorld(moves, score)
 
