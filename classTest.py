@@ -7,8 +7,8 @@ class Dinosaur:
 		self.appearance = appearance
 
 dino_1 = Dinosaur('Trex', 30, 1, 5, 'T')
-dino_2 = Dinosaur('Raptor', 10, 2, 3, 'R')
-dino_3 = Dinosaur('Raptor', 10, 2, 3, 'R')
+dino_2 = Dinosaur('Raptor', 10, 5, 3, 'R')
+dino_3 = Dinosaur('Raptor', 10, 5, 3, 'R')
 dino_test = Dinosaur('TestDinosaur', 999, 5, 10, '#')
 
 class Player:

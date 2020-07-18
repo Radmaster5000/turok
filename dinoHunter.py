@@ -351,49 +351,53 @@ def playGame(moves, playerLocation, score):
 
 		#Each of the dinosaurs gets to move
 		for dino in listOfDinosaurs:
-			
+
+			dinoHP = dino.hp
 			for numberOfMoves in range(dino.speed):
 
-				dino.dinoXY, dino.oldDinoXY = movePlayer(dino.dinoXY, possibleDirections[random.randint(0,3)], n, True)
-				if (dino.dinoXY == playerLocation):
-					print("player hp = " + str(player.hp))
-					print("player weapon = " + str(player.weapon))
-					print("Dinosaur hp = " + str(dino.hp))
-					print("Dinosaur bite = " + str(dino.bite))
-					playerHP, dinoHP, playerRun = fightMechanic(player.hp, player.weapon, dino.hp, dino.bite)
+				if (dinoHP > 0):
+					dino.dinoXY, dino.oldDinoXY = movePlayer(dino.dinoXY, possibleDirections[random.randint(0,3)], n, True)
+					if (dino.dinoXY == playerLocation):
+						print("player hp = " + str(player.hp))
+						print("player weapon = " + str(player.weapon))
+						print("Dinosaur hp = " + str(dino.hp))
+						print("Dinosaur bite = " + str(dino.bite))
+						playerHP, dinoHP, playerRun = fightMechanic(player.hp, player.weapon, dino.hp, dino.bite)
 					
-					if (playerRun == True):
-						# Undoes the dinosaur's last move by repeating their last move but replacing the direction with an opposite value
-						playerLocation, oldPlayerLocation = movePlayer(playerLocation, oppositeDirections[direction], n, True)
-						break
-					else:
-						if (dinoHP <=0):
-							print("You survived your encounter with the dinosaur.")
-							print("The dinosaur didn't.")
-
-							time.sleep(3)
-
-							listOfDinosaurs.pop(listOfDinosaurs.index(dino))
-							score += 1
-							if (score == targetScore):
-								win = True
+						if (playerRun == True):
+							# Undoes the dinosaur's last move by repeating their last move but replacing the direction with an opposite value
+							playerLocation, oldPlayerLocation = movePlayer(playerLocation, oppositeDirections[direction], n, True)
+							break
 						else:
-							print("The dinosaur ate you!")
-							quit()
-				madeWorld[playerLocation[0]][playerLocation[1]] = player.appearance				
-				if (playerRun == True):
-					# keep the dinosaur on its new square
-					madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = dino.appearance
-					madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = empty
-					playerRun = False
-				else:
-					madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = dino.appearance
-					madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = empty
+							if (dinoHP <=0):
+								print("You survived your encounter with the dinosaur.")
+								print("The dinosaur didn't.")
+
+								time.sleep(2)
+
+								listOfDinosaurs.pop(listOfDinosaurs.index(dino))
+								score += 1
+								if (score == targetScore):
+									win = True
+							else:
+								print("The dinosaur ate you!")
+								quit()
+					madeWorld[playerLocation[0]][playerLocation[1]] = player.appearance				
+					if (playerRun == True):
+						# keep the dinosaur on its new square
+						madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = dino.appearance
+						madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = empty
+						playerRun = False
+					else:
+						madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = dino.appearance
+						madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = empty
 					
 
-				printWorld(moves, score)
+					printWorld(moves, score)
 
-				time.sleep(1)
+					time.sleep(1)
+				else:
+					break
 
 
 ######################################################################
