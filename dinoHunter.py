@@ -281,7 +281,7 @@ def playGame(moves, playerLocation, score):
 
 		madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = dino.appearance
 
-	printWorld(moves, score)
+	#printWorld(moves, score)
 
 	playerRun = False
 	win = False
@@ -289,6 +289,8 @@ def playGame(moves, playerLocation, score):
 	while (score != targetScore):
 		
 		for goes in range(player.speed):
+
+			printWorld(moves, score)
 
 			direction = input('Choose a direction >>> ')
 
@@ -364,7 +366,7 @@ def playGame(moves, playerLocation, score):
 					
 					if (playerRun == True):
 						# Undoes the dinosaur's last move by repeating their last move but replacing the direction with an opposite value
-						playerLocation, oldPlayerLocation = movePlayer(playerLocation, oppositeDirections[direction], n, True)
+						#playerLocation, oldPlayerLocation = movePlayer(playerLocation, oppositeDirections[direction], n, True)
 						break
 					else:
 						if (dinoHP <=0):
@@ -381,8 +383,14 @@ def playGame(moves, playerLocation, score):
 							print("The dinosaur ate you!")
 							quit()
 
-				madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = dino.appearance
-				madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = empty
+				if (playerRun == True):
+					madeWorld[playerLocation[0]][playerLocation[1]] = dino.appearance
+					madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = player.appearance
+					madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = empty
+					madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = empty
+				else:
+					madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = dino.appearance
+					madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = empty
 
 				printWorld(moves, score)
 
