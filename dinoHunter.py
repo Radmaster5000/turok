@@ -355,7 +355,7 @@ def playGame(moves, playerLocation, score):
 			dinoHP = dino.hp
 			for numberOfMoves in range(dino.speed):
 
-				if (dinoHP > 0):
+				#if (dinoHP > 0):
 					dino.dinoXY, dino.oldDinoXY = movePlayer(dino.dinoXY, possibleDirections[random.randint(0,3)], n, True)
 					if (dino.dinoXY == playerLocation):
 						print("player hp = " + str(player.hp))
@@ -366,7 +366,7 @@ def playGame(moves, playerLocation, score):
 					
 						if (playerRun == True):
 							# Undoes the dinosaur's last move by repeating their last move but replacing the direction with an opposite value
-							playerLocation, oldPlayerLocation = movePlayer(playerLocation, oppositeDirections[direction], n, True)
+							#playerLocation, oldPlayerLocation = movePlayer(playerLocation, oppositeDirections[direction], n, True)
 							break
 						else:
 							if (dinoHP <=0):
@@ -382,10 +382,16 @@ def playGame(moves, playerLocation, score):
 							else:
 								print("The dinosaur ate you!")
 								quit()
-					madeWorld[playerLocation[0]][playerLocation[1]] = player.appearance				
+								
 					if (playerRun == True):
+						print('this is oldPlayerLocation and should be player ' + str(oldPlayerLocation))
+						print('this is playerLocation and should be dinosaur ' + str(playerLocation))
+						print('this is dinoXY and should be empty ' + str(dino.dinoXY))
+						print('this is oldDinoXY and should be empty ' + str(dino.oldDinoXY))
 						# keep the dinosaur on its new square
-						madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = dino.appearance
+						madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = player.appearance	
+						madeWorld[playerLocation[0]][playerLocation[1]] = dino.appearance
+						madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = empty
 						madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = empty
 						playerRun = False
 					else:
@@ -396,8 +402,8 @@ def playGame(moves, playerLocation, score):
 					printWorld(moves, score)
 
 					time.sleep(1)
-				else:
-					break
+				#else:
+					#break
 
 
 ######################################################################
