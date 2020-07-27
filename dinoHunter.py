@@ -334,7 +334,7 @@ def playGame(moves, playerLocation, score):
 			else:
 				# for any other square the player has been in, empty it or there will be a trail of player appearances
 				madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = empty
-			
+			print(str(playerLocation))
 			printWorld(moves, score)
 			
 			
@@ -367,6 +367,20 @@ def playGame(moves, playerLocation, score):
 						if (playerRun == True):
 							# Undoes the dinosaur's last move by repeating their last move but replacing the direction with an opposite value
 							#playerLocation, oldPlayerLocation = movePlayer(playerLocation, oppositeDirections[direction], n, True)
+							print('this is oldPlayerLocation and should be player ' + str(oldPlayerLocation))
+							print('this is playerLocation and should be dinosaur ' + str(playerLocation))
+							print('this is dinoXY and should be empty ' + str(dino.dinoXY))
+							print('this is oldDinoXY and should be empty ' + str(dino.oldDinoXY))
+							# keep the dinosaur on its new square
+							madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = empty	
+							madeWorld[playerLocation[0]][playerLocation[1]] = empty
+							madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = dino.appearance
+							madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = player.appearance
+							playerLocation[0] = dino.oldDinoXY[0]
+							playerLocation[1] = dino.oldDinoXY[1]
+
+							playerRun = False
+
 							break
 						else:
 							if (dinoHP <=0):
@@ -377,23 +391,17 @@ def playGame(moves, playerLocation, score):
 
 								listOfDinosaurs.pop(listOfDinosaurs.index(dino))
 								score += 1
+								madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = player.appearance
+								madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = empty
+
 								if (score == targetScore):
 									win = True
+
+								break
+								
 							else:
 								print("The dinosaur ate you!")
 								quit()
-								
-					if (playerRun == True):
-						print('this is oldPlayerLocation and should be player ' + str(oldPlayerLocation))
-						print('this is playerLocation and should be dinosaur ' + str(playerLocation))
-						print('this is dinoXY and should be empty ' + str(dino.dinoXY))
-						print('this is oldDinoXY and should be empty ' + str(dino.oldDinoXY))
-						# keep the dinosaur on its new square
-						madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = player.appearance	
-						madeWorld[playerLocation[0]][playerLocation[1]] = dino.appearance
-						madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = empty
-						madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = empty
-						playerRun = False
 					else:
 						madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = dino.appearance
 						madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = empty
