@@ -336,7 +336,7 @@ def playGame(moves, playerLocation, score):
 			else:
 				# for any other square the player has been in, empty it or there will be a trail of player appearances
 				madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = empty
-			
+			print(str(playerLocation))
 			printWorld(moves, score)
 			
 			
@@ -353,48 +353,66 @@ def playGame(moves, playerLocation, score):
 
 		#Each of the dinosaurs gets to move
 		for dino in listOfDinosaurs:
-			
+
+			dinoHP = dino.hp
 			for numberOfMoves in range(dino.speed):
 
-				dino.dinoXY, dino.oldDinoXY = movePlayer(dino.dinoXY, possibleDirections[random.randint(0,3)], n, True)
-				if (dino.dinoXY == playerLocation):
-					print("player hp = " + str(player.hp))
-					print("player weapon = " + str(player.weapon))
-					print("Dinosaur hp = " + str(dino.hp))
-					print("Dinosaur bite = " + str(dino.bite))
-					playerHP, dinoHP, playerRun = fightMechanic(player.hp, player.weapon, dino.hp, dino.bite)
-					
-					if (playerRun == True):
-						# Undoes the dinosaur's last move by repeating their last move but replacing the direction with an opposite value
-						#playerLocation, oldPlayerLocation = movePlayer(playerLocation, oppositeDirections[direction], n, True)
-						break
-					else:
-						if (dinoHP <=0):
-							print("You survived your encounter with the dinosaur.")
-							print("The dinosaur didn't.")
+				#if (dinoHP > 0):
+					dino.dinoXY, dino.oldDinoXY = movePlayer(dino.dinoXY, possibleDirections[random.randint(0,3)], n, True)
+					if (dino.dinoXY == playerLocation):
+						print("player hp = " + str(player.hp))
+						print("player weapon = " + str(player.weapon))
+						print("Dinosaur hp = " + str(dino.hp))
+						print("Dinosaur bite = " + str(dino.bite))
+						playerHP, dinoHP, playerRun = fightMechanic(player.hp, player.weapon, dino.hp, dino.bite)
 
-							time.sleep(3)
+						if (playerRun == True):
+							# Undoes the dinosaur's last move by repeating their last move but replacing the direction with an opposite value
+							#playerLocation, oldPlayerLocation = movePlayer(playerLocation, oppositeDirections[direction], n, True)
+							print('this is oldPlayerLocation and should be player ' + str(oldPlayerLocation))
+							print('this is playerLocation and should be dinosaur ' + str(playerLocation))
+							print('this is dinoXY and should be empty ' + str(dino.dinoXY))
+							print('this is oldDinoXY and should be empty ' + str(dino.oldDinoXY))
+							# keep the dinosaur on its new square
+							madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = empty	
+							madeWorld[playerLocation[0]][playerLocation[1]] = empty
+							madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = dino.appearance
+							madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = player.appearance
+							playerLocation[0] = dino.oldDinoXY[0]
+							playerLocation[1] = dino.oldDinoXY[1]
 
-							listOfDinosaurs.pop(listOfDinosaurs.index(dino))
-							score += 1
-							if (score == targetScore):
-								win = True
+							playerRun = False
+
+							break
 						else:
-							print("The dinosaur ate you!")
-							quit()
+							if (dinoHP <=0):
+								print("You survived your encounter with the dinosaur.")
+								print("The dinosaur didn't.")
 
-				if (playerRun == True):
-					madeWorld[playerLocation[0]][playerLocation[1]] = dino.appearance
-					madeWorld[oldPlayerLocation[0]][oldPlayerLocation[1]] = player.appearance
-					madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = empty
-					madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = empty
-				else:
-					madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = dino.appearance
-					madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = empty
+								time.sleep(2)
 
-				printWorld(moves, score)
+								listOfDinosaurs.pop(listOfDinosaurs.index(dino))
+								score += 1
+								madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = player.appearance
+								madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = empty
 
-				time.sleep(1)
+								if (score == targetScore):
+									win = True
+
+								break
+								
+							else:
+								print("The dinosaur ate you!")
+								quit()
+					else:
+						madeWorld[dino.dinoXY[0]][dino.dinoXY[1]] = dino.appearance
+						madeWorld[dino.oldDinoXY[0]][dino.oldDinoXY[1]] = empty
+
+					printWorld(moves, score)
+
+					time.sleep(1)
+				#else:
+					#break
 
 
 ######################################################################

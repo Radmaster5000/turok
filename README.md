@@ -47,4 +47,10 @@ The dinosaur then attempts to attack the player and a roll is made to see if the
 
 *******************************************
 
+<<<<<<< HEAD
 NEARLY FIXED THE 'RUN' BUG ON THE OTHER BRANCH
+=======
+ADDED A NEW BRANCH BECAUSE I KINDA BROKE IT AS I WAS TRYING TO FIX SOMETHING
+
+
+>>>>>>> runningFromDinoFight
